@@ -14,19 +14,19 @@ pipeline {
             }
         }
 
-        stage('Build Node.js Dependencies') {
-            steps {
-                echo 'Installing Node.js dependencies...'
-                bat '''
-                cd user-service
-                if exist node_modules rmdir /s /q node_modules
-                del package-lock.json 2>nul
-                npm cache clean --force
-                npm install --no-fund --no-audit
-                cd ..
-                '''
-            }
-        }
+        stage('Build') {
+    steps {
+        echo 'Installing Node.js dependencies...'
+        bat '''
+        cd user-service
+        if exist node_modules rmdir /s /q node_modules
+        del package-lock.json 2>nul
+        npm cache clean --force
+        npm install --no-fund --no-audit
+        '''
+    }
+}
+
 
         stage('Build Docker Images') {
             steps {
