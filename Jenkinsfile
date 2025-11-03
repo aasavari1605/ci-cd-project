@@ -29,23 +29,24 @@ pipeline {
     steps {
         echo "Testing Order Service Root (Health Check):"
         bat '''
-        powershell -Command "
-        $response = Invoke-WebRequest -Uri http://localhost:3002/ -UseBasicParsing;
-        $response | Format-List *;
-        "
+        powershell -Command "& {
+            $response = Invoke-WebRequest -Uri http://localhost:3002/ -UseBasicParsing;
+            $response | Format-List *;
+        }"
         '''
 
         echo "Testing Order Service /orders Endpoint:"
         bat '''
-        powershell -Command "
-        $response = Invoke-WebRequest -Uri http://localhost:3002/orders -UseBasicParsing;
-        $response | Format-List *;
-        "
+        powershell -Command "& {
+            $response = Invoke-WebRequest -Uri http://localhost:3002/orders -UseBasicParsing;
+            $response | Format-List *;
+        }"
         '''
 
         echo "Deployment verification successful! Services are running."
     }
 }
+
 
     }
 
