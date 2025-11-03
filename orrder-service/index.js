@@ -1,15 +1,18 @@
 const express = require('express');
 const app = express();
+const PORT = 3002;
 
-const orders = [
-  { id: 1, item: 'Laptop', quantity: 1 },
-  { id: 2, item: 'Phone', quantity: 2 }
-];
-
-app.get('/orders', (req, res) => {
-  res.json(orders);
+app.get('/', (req, res) => {
+  res.send('Order Service is running');
 });
 
-app.listen(3002, () => {
-  console.log('Order Service running on port 3002');
+app.get('/orders', (req, res) => {
+  res.json([
+    { orderId: '0101', item: 'Laptop', userId: 1 },
+    { orderId: '0102', item: 'Monitor', userId: 2 }
+  ]);
+});
+
+app.listen(PORT, () => {
+  console.log(`Order Service started on port ${PORT}`);
 });
