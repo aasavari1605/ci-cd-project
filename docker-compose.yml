@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  user-service:
+    image: ash1185/user-service:1.0
+    container_name: user-service
+    ports:
+      - "3001:3001"
+
+  order-service:
+    image: ash1185/orrder-service:1.0
+    container_name: orrder-service
+    ports:
+      - "3002:3002"
