@@ -26,16 +26,27 @@ pipeline {
         }
 
         stage('Verify Deployment') {
-            steps {
-                echo 'Testing Order Service Root (Health Check):'
-                bat 'curl -v http://localhost:3002/ || exit 1'
+    steps {
+        echo "Testing Order Service Root (Health Check):"
+        bat '''
+        powershell -Command "
+        $response = Invoke-WebRequest -Uri http://localhost:3002/ -UseBasicParsing;
+        $response | Format-List *;
+        "
+        '''
 
-                echo 'Testing Order Service /orders Endpoint:'
-                bat 'curl -v http://localhost:3002/orders || exit 1'
+        echo "Testing Order Service /orders Endpoint:"
+        bat '''
+        powershell -Command "
+        $response = Invoke-WebRequest -Uri http://localhost:3002/orders -UseBasicParsing;
+        $response | Format-List *;
+        "
+        '''
 
-                echo 'Deployment verification successful! Services are running.'
-            }
-        }
+        echo "Deployment verification successful! Services are running."
+    }
+}
+
     }
 
     post {
