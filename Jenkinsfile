@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout Code') {
             steps {
                 echo 'Fetching latest code from GitHub...'
@@ -26,28 +27,22 @@ pipeline {
         }
 
         stage('Verify Deployment') {
-    steps {
-        echo "Testing Order Service Root (Health Check):"
-        bat '''
-        powershell -Command "& {
-            $response = Invoke-WebRequest -Uri http://localhost:3002/ -UseBasicParsing;
-            $response | Format-List *;
-        }"
-        '''
+            steps {
+                echo "Testing Order Service Root (Health Check):"
+                bat '''
+                powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+                "& { $response = Invoke-WebRequest -Uri http://localhost:3002/ -UseBasicParsing; $response | Format-List * }"
+                '''
 
-        echo "Testing Order Service /orders Endpoint:"
-        bat '''
-        powershell -Command "& {
-            $response = Invoke-WebRequest -Uri http://localhost:3002/orders -UseBasicParsing;
-            $response | Format-List *;
-        }"
-        '''
+                echo "Testing Order Service /orders Endpoint:"
+                bat '''
+                powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+                "& { $response = Invoke-WebRequest -Uri http://localhost:3002/orders -UseBasicParsing; $response | Format-List * }"
+                '''
 
-        echo "Deployment verification successful! Services are running."
-    }
-}
-
-
+                echo "✅ Deployment verification successful! Services are running."
+            }
+        }
     }
 
     post {
